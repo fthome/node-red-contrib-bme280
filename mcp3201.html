@@ -1,0 +1,70 @@
+<script type="text/x-red" data-template-name="Mcp3201">
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+      <label for="node-input-device"><i class="fa fa-microchip"></i> Device #</label>
+      <input type="text" id="node-input-device" />
+  </div>
+  <div class="form-row">
+     <label for="node-input-vref"><i class="fa fa-tag"></i> Ref. Voltage</label>
+     <input type="text" id="node-input-vref" />
+  </div>
+  <div class="form-row">
+      <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
+      <input type="text" id="node-input-topic" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType("Mcp3201", {
+    category: "input",
+    color:"#DAC4B4",
+    icon:"bridge.png",
+    defaults: {
+      name:  {value:"Voltage", required: false},
+      device:   {value:"/dev/spidev0.0", required: true},
+      vref:{value:3.3, required: true},
+      topic:{value:"", required = false}
+    },
+    outputs:1,
+    inputs:1,
+    label: function() {
+      return this.name ? this.name : "Mcp3201";
+    },
+    outputLabels: ["Incoming Payloads"],
+    inputLabels: ["Trigger"]
+  });
+</script>
+
+<script type="text/x-red" data-help-name="Mcp3201">
+    <p> A node for reading a Mcp3201 device on a spi bus.</p>
+    <h1>Wiring</h1>
+    <h2>MCP3201 :</h2>
+    <p>         _ _</p>
+		<p>	       | U |						</p>
+	  <p>Vref ---|   |--- Vdd : 2.7V - 5V			</p>
+		<p>IN+ ---|   |--- CLK		</p>
+		<p>IN- ---|   |--- Dout	</p>
+		<p>0V ---|   |--- CS				</p>		
+    <p>  		       |___|</p>
+													 
+<h2>sur Rpi (SPI0):</h2>
+
+  <p>Vref : 3.3V (ou 5V, ou ...)c
+	<p>Vdd : 3.3V (ou 5V)<p>
+  <p>CLK : SPI0_SCLK = GPIO11<p>
+  <p>Dout : SPI MISO = GPIO09<p>
+	<p>CS : - SPI0_CE0_N (GPIO08) => device : '/dev/spidev0.0'<p>
+<p>       - SPI0_CE1_N_N (GPIO07) => device = '/dev/spidev0.1'<p>
+    <h1> Usage </h1>
+    <p> Input a msg an output :</p>
+    <p>```
+msg = {
+  _id: <node-red msg_id>,
+  topic: "__topic__",
+  payload: value_in_volt
+}
+```<p>
+</script>
