@@ -14,7 +14,7 @@
     "rpi",
     "raspberry",
     "mcp3201",
-    "ADC",
+    "ADC"
   ],
   "node-red": {
     "nodes": {
